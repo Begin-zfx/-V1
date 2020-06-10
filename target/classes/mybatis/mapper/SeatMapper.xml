@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfx.dao.SeatMapper">
+  <resultMap id="BaseResultMap" type="com.zfx.entity.Seat">
+    <id column="seatID" jdbcType="INTEGER" property="seatid" />
+    <result column="roomID" jdbcType="INTEGER" property="roomid" />
+    <result column="seatState" jdbcType="CHAR" property="seatstate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    seatID, roomID, seatState
+  </sql>
+  <select id="selectByExample" parameterType="com.zfx.entity.SeatExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_seat
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_seat
+    where seatID = #{seatid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_seat
+    where seatID = #{seatid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zfx.entity.SeatExample">
+    delete from tb_seat
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zfx.entity.Seat">
+    insert into tb_seat (seatID, roomID, seatState
+      )
+    values (#{seatid,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{seatstate,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zfx.entity.Seat">
+    insert into tb_seat
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seatid != null">
+        seatID,
+      </if>
+      <if test="roomid != null">
+        roomID,
+      </if>
+      <if test="seatstate != null">
+        seatState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seatid != null">
+        #{seatid,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="seatstate != null">
+        #{seatstate,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zfx.entity.SeatExample" resultType="java.lang.Long">
+    select count(*) from tb_seat
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_seat
+    <set>
+      <if test="record.seatid != null">
+        seatID = #{record.seatid,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomid != null">
+        roomID = #{record.roomid,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatstate != null">
+        seatState = #{record.seatstate,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_seat
+    set seatID = #{record.seatid,jdbcType=INTEGER},
+      roomID = #{record.roomid,jdbcType=INTEGER},
+      seatState = #{record.seatstate,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zfx.entity.Seat">
+    update tb_seat
+    <set>
+      <if test="roomid != null">
+        roomID = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="seatstate != null">
+        seatState = #{seatstate,jdbcType=CHAR},
+      </if>
+    </set>
+    where seatID = #{seatid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zfx.entity.Seat">
+    update tb_seat
+    set roomID = #{roomid,jdbcType=INTEGER},
+      seatState = #{seatstate,jdbcType=CHAR}
+    where seatID = #{seatid,jdbcType=INTEGER}
+  </update>
+</mapper>

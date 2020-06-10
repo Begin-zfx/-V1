@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>欢迎进入登陆页面</title>
+        <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+        <script th:src="@{/js/all.min.js}" crossorigin="anonymous"></script>
+    </head>
+    <body >
+        <div id="layoutAuthentication">
+            <div class="card">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="text-center">
+                            <h2 class="text-info">欢迎进入共享自习室管理系统登陆页面</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body mt-2 " style="background-color: #8adbff">
+                    <div id="layoutAuthentication_content"  class="mb-lg-5 mt-lg-5">
+                        <main>
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-5 ">
+                                        <div class="card shadow-lg border-1 rounded-lg mt-5">
+                                            <div class="card-header">
+                                                <h3 class="text-center font-weight-light my-4 text-primary">登陆<br/></h3>
+                                            </div>
+                                            <div class="card-body ">
+                                                <form th:action="@{/loginD}" method="post">
+                                                    <div class="form-group">
+                                                        <p style="color: red" th:text="${msg}" id="mima" th:if="${not #strings.isEmpty(msg)}"></p>
+                                                        <span class="help-block text-danger" id="info"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="small mb-1" for="inputManagerName">用户名</label>
+                                                        <input name="managername" class="form-control py-4" id="inputManagerName" type="text" maxlength="16" placeholder="输入用户名" />
+                                                        <span class="help-block text-info"></span>
+                                                    </div>
+                                                    <div class="form-group ">
+                                                        <label class="small mb-1" for="inputPassword">密码</label>
+                                                        <input name="managerpwd" class="form-control py-4" id="inputPassword" type="password" maxlength="16" placeholder="输入密码" />
+                                                        <span class="help-block text-info"></span>
+                                                    </div>
+                                                    <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                        <a class="small" th:href="@{/forgotPwd}">忘记密码?</a>
+                                                        <button class="btn btn-primary" type="submit" id="save_btn">进入</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-footer text-center">
+                                                <div class="small"><a th:href="@{/register}">创建账号? 注册!</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+
+                </div>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">联系：m15952086301@163.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.bundle.min.js" th:href="@{/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+        <script src="js/scripts.js" th:href="@{/js/scripts.js}"></script>
+    <script type="text/javascript">
+        //点击保存，保存新增的管理员
+        $("#save_btn").click(function(){
+            if($("#inputManagerName").val() == ""){
+                $("#info").text("请输入用户名！");
+                return false;
+            }
+            if($("#inputPassword").val() == ""){
+                $("#info").text("请输入密码！");
+                return false;
+            }
+            //判断之前的ajax用户名校验是否成功，如果成功继续，否则终止
+            if($(this).attr("ajax_managerName") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_managerPwd") == "error"){
+                return false;
+            }
+
+        });
+        //显示校验的提示信息
+        function show_validate_msg(ele,status,msg){
+            //清楚当前元素的校验状态
+            $(ele).parent().removeClass("has-success has-error");
+            $(ele).next("span").text();
+            if("success"==status){
+                $(ele).parent().addClass("has-success");
+                $(ele).next("span").text(msg);
+            }else if("error"==status){
+                $(ele).parent().addClass("has-error");
+                $(ele).next("span").text(msg);
+            }
+        }
+
+        //后端管理员姓名校验
+        $("#inputManagerName").change(function(){
+            var managerName=$("#inputManagerName").val();
+            if(managerName != ""){
+                //发送ajax，请求用户名是否可用
+                $.ajax({
+                    url:"/checkLoginManagerName",
+                    type:"GET",
+                    data:"managername="+managerName,
+                    success:function(result){
+                        if(result.code == 100){
+                            show_validate_msg("#inputManagerName","success",result.extend.va_msg);
+                            // alert(result.extend.va_msg);
+                            $("#save_btn").attr("ajax_managerName","success");
+                        }else{
+                            show_validate_msg("#inputManagerName","error",result.extend.va_msg);
+                            $("#save_btn").attr("ajax_managerName","error");
+                        }
+                    }
+                });
+            }
+            if(managerName.length == 0){
+                show_validate_msg("#inputManagerName","success","");
+                // $("#info").text("请输入用户名");
+            }else {
+                $("#info").text("");
+                $("#mima").text("");
+            }
+        })
+        //后端密码校验
+        $("#inputPassword").change(function(){
+            var managerPwd=$("#inputPassword").val();
+
+            if (managerPwd != ""){
+                //发送ajax，密码格式是否正确
+                $.ajax({
+                    url:"/checkLoginManagerPwd",
+                    type:"GET",
+                    data:"managerpwd="+managerPwd,
+                    success:function(result){
+                        if(result.code == 100){
+                            show_validate_msg("#inputPassword","success",result.extend.va_msg);
+                            // alert(result.extend.va_msg);
+                            $("#save_btn").attr("ajax_managerPwd","success");
+                        }else{
+                            show_validate_msg("#inputPassword","error",result.extend.va_msg);
+                            $("#save_btn").attr("ajax_managerPwd","error");
+                        }
+                    }
+                });
+            }
+            if(managerPwd.length>=6 && managerPwd.length<=16){
+                show_validate_msg("#inputPassword","success","");
+            }
+            if(managerPwd.length == 0){
+                show_validate_msg("#inputPassword","success","");
+                // $("#info").text("请输入密码");
+            }else {
+                $("#info").text("");
+                $("#mima").text("");
+            }
+
+        })
+    </script>
+    </body>
+</html>

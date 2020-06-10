@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfx.dao.SeatuseMapper">
+  <resultMap id="BaseResultMap" type="com.zfx.entity.Seatuse">
+    <id column="seatuseID" jdbcType="INTEGER" property="seatuseid" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="seatID" jdbcType="INTEGER" property="seatid" />
+    <result column="beginTime" jdbcType="TIMESTAMP" property="begintime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    seatuseID, userID, seatID, beginTime, endTime, state
+  </sql>
+  <select id="selectByExample" parameterType="com.zfx.entity.SeatuseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_seatuse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_seatuse
+    where seatuseID = #{seatuseid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_seatuse
+    where seatuseID = #{seatuseid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zfx.entity.SeatuseExample">
+    delete from tb_seatuse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zfx.entity.Seatuse">
+    insert into tb_seatuse (seatuseID, userID, seatID, 
+      beginTime, endTime, state
+      )
+    values (#{seatuseid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{seatid,jdbcType=INTEGER}, 
+      #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zfx.entity.Seatuse">
+    insert into tb_seatuse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seatuseid != null">
+        seatuseID,
+      </if>
+      <if test="userid != null">
+        userID,
+      </if>
+      <if test="seatid != null">
+        seatID,
+      </if>
+      <if test="begintime != null">
+        beginTime,
+      </if>
+      <if test="endtime != null">
+        endTime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seatuseid != null">
+        #{seatuseid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="seatid != null">
+        #{seatid,jdbcType=INTEGER},
+      </if>
+      <if test="begintime != null">
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zfx.entity.SeatuseExample" resultType="java.lang.Long">
+    select count(*) from tb_seatuse
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_seatuse
+    <set>
+      <if test="record.seatuseid != null">
+        seatuseID = #{record.seatuseid,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null">
+        userID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatid != null">
+        seatID = #{record.seatid,jdbcType=INTEGER},
+      </if>
+      <if test="record.begintime != null">
+        beginTime = #{record.begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null">
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_seatuse
+    set seatuseID = #{record.seatuseid,jdbcType=INTEGER},
+      userID = #{record.userid,jdbcType=INTEGER},
+      seatID = #{record.seatid,jdbcType=INTEGER},
+      beginTime = #{record.begintime,jdbcType=TIMESTAMP},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zfx.entity.Seatuse">
+    update tb_seatuse
+    <set>
+      <if test="userid != null">
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="seatid != null">
+        seatID = #{seatid,jdbcType=INTEGER},
+      </if>
+      <if test="begintime != null">
+        beginTime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where seatuseID = #{seatuseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zfx.entity.Seatuse">
+    update tb_seatuse
+    set userID = #{userid,jdbcType=INTEGER},
+      seatID = #{seatid,jdbcType=INTEGER},
+      beginTime = #{begintime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where seatuseID = #{seatuseid,jdbcType=INTEGER}
+  </update>
+</mapper>

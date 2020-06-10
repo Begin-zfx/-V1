@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>bar</title>
+</head>
+<body>
+
+<!--顶部top-->
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" th:fragment="topbar">
+    <a class="navbar-brand" th:href="@{/user22}">主页</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+    <span class="navbar-brand  ml-auto" ><i class="fas fa-user"></i>  当前管理员： [[${session.username}]] </span>
+</nav>
+<!--侧边bar-->
+<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" th:fragment="sidebar">
+    <div class="sb-sidenav-menu">
+        <div class="nav">
+            <div class="sb-sidenav-menu-heading">核心</div>
+            <a class="nav-link" th:href="@{/user22}">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <div class="sb-nav-link-icon"><i class="fas fa-industry"></i>  数据总览</div>
+                </nav>
+            </a>
+            <div class="sb-sidenav-menu-heading"><i class="fas fa-columns"></i>用户管理</div>
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" th:href="@{/usertables}">用户信息管理</a>
+                    <a class="nav-link" th:href="@{/toComplain}">用户投诉管理</a>
+                    <a class="nav-link" th:href="@{/toFeedback}">投诉反馈信息</a>
+                    <a class="nav-link" th:href="@{/toBlacklist}">黑名单管理</a>
+                </nav>
+            <div class="sb-sidenav-menu-heading"><i class="fas fa-columns"></i>座位管理</div>
+                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                    <a class="nav-link" th:href="@{/seat}">实时座位管理</a>
+                    <a class="nav-link" th:href="@{/seatUseCount}">座位使用预约记录</a>
+
+                </nav>
+            <div class="sb-sidenav-menu-heading">密码管理</div>
+            <nav class="sb-sidenav-menu-nested nav accordion" >
+                <a class="nav-link" th:href="@{/forgotPwd2}">重置密码</a>
+            </nav>
+
+        </div>
+    </div>
+    <div class="sb-sidenav-footer">
+        <div class="small">欢迎: [[${session.username}]]</div>
+    </div>
+</nav>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

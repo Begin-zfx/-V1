@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfx.dao.ComplainMapper">
+  <resultMap id="BaseResultMap" type="com.zfx.entity.Complain">
+    <id column="cpID" jdbcType="INTEGER" property="cpid" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="cpDate" jdbcType="TIMESTAMP" property="cpdate" />
+    <result column="cpText" jdbcType="VARCHAR" property="cptext" />
+    <result column="ps" jdbcType="VARCHAR" property="ps" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cpID, userID, cpDate, cpText, ps
+  </sql>
+  <select id="selectByExample" parameterType="com.zfx.entity.ComplainExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_complain
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_complain
+    where cpID = #{cpid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_complain
+    where cpID = #{cpid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zfx.entity.ComplainExample">
+    delete from tb_complain
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zfx.entity.Complain">
+    insert into tb_complain (cpID, userID, cpDate, 
+      cpText, ps)
+    values (#{cpid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{cpdate,jdbcType=TIMESTAMP}, 
+      #{cptext,jdbcType=VARCHAR}, #{ps,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zfx.entity.Complain">
+    insert into tb_complain
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cpid != null">
+        cpID,
+      </if>
+      <if test="userid != null">
+        userID,
+      </if>
+      <if test="cpdate != null">
+        cpDate,
+      </if>
+      <if test="cptext != null">
+        cpText,
+      </if>
+      <if test="ps != null">
+        ps,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cpid != null">
+        #{cpid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cpdate != null">
+        #{cpdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cptext != null">
+        #{cptext,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null">
+        #{ps,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zfx.entity.ComplainExample" resultType="java.lang.Long">
+    select count(*) from tb_complain
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_complain
+    <set>
+      <if test="record.cpid != null">
+        cpID = #{record.cpid,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null">
+        userID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cpdate != null">
+        cpDate = #{record.cpdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cptext != null">
+        cpText = #{record.cptext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ps != null">
+        ps = #{record.ps,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_complain
+    set cpID = #{record.cpid,jdbcType=INTEGER},
+      userID = #{record.userid,jdbcType=INTEGER},
+      cpDate = #{record.cpdate,jdbcType=TIMESTAMP},
+      cpText = #{record.cptext,jdbcType=VARCHAR},
+      ps = #{record.ps,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zfx.entity.Complain">
+    update tb_complain
+    <set>
+      <if test="userid != null">
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cpdate != null">
+        cpDate = #{cpdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cptext != null">
+        cpText = #{cptext,jdbcType=VARCHAR},
+      </if>
+      <if test="ps != null">
+        ps = #{ps,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cpID = #{cpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zfx.entity.Complain">
+    update tb_complain
+    set userID = #{userid,jdbcType=INTEGER},
+      cpDate = #{cpdate,jdbcType=TIMESTAMP},
+      cpText = #{cptext,jdbcType=VARCHAR},
+      ps = #{ps,jdbcType=VARCHAR}
+    where cpID = #{cpid,jdbcType=INTEGER}
+  </update>
+</mapper>

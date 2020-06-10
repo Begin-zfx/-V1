@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <!--<% pageContext.setAttribute("app_path", request.getContextPath());%>-->
+        <title>密码重置</title>
+        <link href="css/styles.css" rel="stylesheet"/>
+        <script src="js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body style="background-color: #8adbff">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-7">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">创建账号</h3></div>
+                                    <div class="card-body">
+                                        <span class="help-block text-danger" id="info"></span>
+                                        <form th:action="@{/registerManager}" method="post">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputManagerName">姓名</label>
+                                                <input name="managername" class="form-control py-4" id="inputManagerName" maxlength="16" type="text" placeholder="输入姓名" />
+                                                <span class="help-block text-info"></span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputTel">手机号码</label>
+                                                <input name="managertel" class="form-control py-4" id="inputTel" type="tel" maxlength="11" aria-describedby="telHelp" placeholder="输入手机号" />
+                                                <span class="help-block text-info"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputPassword">密码</label>
+                                                <input name="managerpwd" class="form-control py-4" id="inputPassword" maxlength="16" type="password" placeholder="输入密码" />
+                                                <span class="help-block text-info"></span>
+                                            </div>
+
+                                            <div class="form-group mt-4 mb-0">
+                                                <button class="btn btn-primary btn-block" type="submit" id="save_btn">创建账号</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <div class="small"><a th:href="@{/share.html}">已有账号? 登陆！</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">联系：m15952086301@163.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+        <script src="js/scripts.js" th:src="@{/js/scripts.js}"></script>
+    <script type="text/javascript">
+        //点击保存，保存新增的管理员
+        $("#save_btn").click(function(){
+            if($("#inputManagerName").val() == ""){
+                $("#info").text("请输入用户名！");
+                return false;
+            }
+            if($("#inputTel").val() == ""){
+                $("#info").text("请输入手机号！");
+                return false;
+            }
+            if($("#inputPassword").val() == ""){
+                $("#info").text("请输入密码！");
+                return false;
+            }
+            //判断之前的ajax用户名校验是否成功，如果成功继续，否则终止
+            if($(this).attr("ajax_managerName") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_managertel") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_managerpwd") == "error"){
+                return false;
+            }
+
+        });
+        //显示校验的提示信息
+        function show_validate_msg(ele,status,msg){
+            //清楚当前元素的校验状态
+            $(ele).parent().removeClass("has-success has-error");
+            $(ele).next("span").text();
+            if("success"==status){
+                $(ele).parent().addClass("has-success");
+                $(ele).next("span").text(msg);
+            }else if("error"==status){
+                $(ele).parent().addClass("has-error");
+                $(ele).next("span").text(msg);
+            }
+        }
+
+        //后端管理员姓名校验
+        $("#inputManagerName").change(function(){
+            var managerName=$("#inputManagerName").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"/checkManagerName",
+                type:"GET",
+                data:"managername="+managerName,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#inputManagerName","success",result.extend.va_msg);
+                        // alert(managerName);
+                        $("#save_btn").attr("ajax_managerName","success");
+                    }else{
+                        show_validate_msg("#inputManagerName","error",result.extend.va_msg);
+                        // alert(managerName);
+                        $("#save_btn").attr("ajax_managerName","error");
+                    }
+                }
+            });
+        })
+        //后端电话号码校验
+        $("#inputTel").change(function(){
+            var managertel=$("#inputTel").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"/checkManagerTel",
+                type:"GET",
+                data:"managertel="+managertel,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#inputTel","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_btn").attr("ajax_managertel","success");
+                    }else{
+                        show_validate_msg("#inputTel","error",result.extend.va_msg);
+                        $("#save_btn").attr("ajax_managertel","error");
+                    }
+                }
+            });
+        })
+        //后端密码校验
+        $("#inputPassword").change(function(){
+            var managerpwd=$("#inputPassword").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"/checkManagerPwd",
+                type:"GET",
+                data:"managerpwd="+managerpwd,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#inputPassword","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_btn").attr("ajax_managerpwd","success");
+                    }else{
+                        show_validate_msg("#inputPassword","error",result.extend.va_msg);
+                        $("#save_btn").attr("ajax_managerpwd","error");
+                    }
+                }
+            });
+        })
+    </script>
+    </body>
+</html>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfx.dao.StatisticMapper">
+  <resultMap id="BaseResultMap" type="com.zfx.entity.Statistic">
+    <id column="staID" jdbcType="INTEGER" property="staid" />
+    <result column="stadate" jdbcType="DATE" property="stadate" />
+    <result column="seatU" jdbcType="INTEGER" property="seatu" />
+    <result column="seatR" jdbcType="INTEGER" property="seatr" />
+    <result column="oth1" jdbcType="VARCHAR" property="oth1" />
+    <result column="oth2" jdbcType="VARCHAR" property="oth2" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    staID, stadate, seatU, seatR, oth1, oth2
+  </sql>
+  <select id="selectByExample" parameterType="com.zfx.entity.StatisticExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_statistic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_statistic
+    where staID = #{staid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_statistic
+    where staID = #{staid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zfx.entity.StatisticExample">
+    delete from tb_statistic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zfx.entity.Statistic">
+    insert into tb_statistic (staID, stadate, seatU, 
+      seatR, oth1, oth2)
+    values (#{staid,jdbcType=INTEGER}, #{stadate,jdbcType=DATE}, #{seatu,jdbcType=INTEGER}, 
+      #{seatr,jdbcType=INTEGER}, #{oth1,jdbcType=VARCHAR}, #{oth2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zfx.entity.Statistic">
+    insert into tb_statistic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="staid != null">
+        staID,
+      </if>
+      <if test="stadate != null">
+        stadate,
+      </if>
+      <if test="seatu != null">
+        seatU,
+      </if>
+      <if test="seatr != null">
+        seatR,
+      </if>
+      <if test="oth1 != null">
+        oth1,
+      </if>
+      <if test="oth2 != null">
+        oth2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="staid != null">
+        #{staid,jdbcType=INTEGER},
+      </if>
+      <if test="stadate != null">
+        #{stadate,jdbcType=DATE},
+      </if>
+      <if test="seatu != null">
+        #{seatu,jdbcType=INTEGER},
+      </if>
+      <if test="seatr != null">
+        #{seatr,jdbcType=INTEGER},
+      </if>
+      <if test="oth1 != null">
+        #{oth1,jdbcType=VARCHAR},
+      </if>
+      <if test="oth2 != null">
+        #{oth2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zfx.entity.StatisticExample" resultType="java.lang.Long">
+    select count(*) from tb_statistic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_statistic
+    <set>
+      <if test="record.staid != null">
+        staID = #{record.staid,jdbcType=INTEGER},
+      </if>
+      <if test="record.stadate != null">
+        stadate = #{record.stadate,jdbcType=DATE},
+      </if>
+      <if test="record.seatu != null">
+        seatU = #{record.seatu,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatr != null">
+        seatR = #{record.seatr,jdbcType=INTEGER},
+      </if>
+      <if test="record.oth1 != null">
+        oth1 = #{record.oth1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oth2 != null">
+        oth2 = #{record.oth2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_statistic
+    set staID = #{record.staid,jdbcType=INTEGER},
+      stadate = #{record.stadate,jdbcType=DATE},
+      seatU = #{record.seatu,jdbcType=INTEGER},
+      seatR = #{record.seatr,jdbcType=INTEGER},
+      oth1 = #{record.oth1,jdbcType=VARCHAR},
+      oth2 = #{record.oth2,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zfx.entity.Statistic">
+    update tb_statistic
+    <set>
+      <if test="stadate != null">
+        stadate = #{stadate,jdbcType=DATE},
+      </if>
+      <if test="seatu != null">
+        seatU = #{seatu,jdbcType=INTEGER},
+      </if>
+      <if test="seatr != null">
+        seatR = #{seatr,jdbcType=INTEGER},
+      </if>
+      <if test="oth1 != null">
+        oth1 = #{oth1,jdbcType=VARCHAR},
+      </if>
+      <if test="oth2 != null">
+        oth2 = #{oth2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where staID = #{staid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zfx.entity.Statistic">
+    update tb_statistic
+    set stadate = #{stadate,jdbcType=DATE},
+      seatU = #{seatu,jdbcType=INTEGER},
+      seatR = #{seatr,jdbcType=INTEGER},
+      oth1 = #{oth1,jdbcType=VARCHAR},
+      oth2 = #{oth2,jdbcType=VARCHAR}
+    where staID = #{staid,jdbcType=INTEGER}
+  </update>
+</mapper>

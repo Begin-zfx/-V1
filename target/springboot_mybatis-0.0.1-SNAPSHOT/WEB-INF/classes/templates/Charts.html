@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>图表分析</title>
+        <link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+        <script src="js/all.min.js" th:src="@{/js/all.min.js}" crossorigin="anonymous"></script>
+
+    </head>
+    <body class="sb-nav-fixed">
+    <div th:replace="commons/bar::topbar"></div>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <div th:replace="commons/bar::sidebar"></div>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h3 class="mt-4">座位使用图表分析</h3>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/user22">主页</a></li>
+                            <li class="breadcrumb-item active">Charts</li>
+                        </ol>
+
+                        <div class="card mb-4">
+                            <div class="card-header"><i class="fas fa-chart-area mr-1"></i>数据柱状图分析</div>
+                            <div class="card-body">
+                                <div id="main" style="width: 100%;height:300px;"></div>
+                            </div>
+                            <div class="card-footer small text-muted">更新时间：昨天21：00</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-area mr-1"></i>座位使用折线图</div>
+                                    <div class="card-body">
+                                        <div id="seatUseChart" style="width: 100%;height:50px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>座位预约折线图</div>
+                                    <div class="card-body">
+                                        <div id="seatResverChart" style="width: 100%;height:50px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">联系：m15952086301@163.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    <script src="js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+    <script src="js/scripts.js" th:src="@{/js/scripts.js}"></script>
+    <script src="js/echarts.min.js" th:src="@{/webjars/echarts/4.6.0/echarts.min.js}" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url:"http://localhost:8080/getStaInfo",
+            type:"GET",
+            success:function (result) {
+                var sta = result.extend.statistics;
+                // alert(state1);
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+                var seatUseChart = echarts.init(document.getElementById('seatUseChart'));
+                // 指定图表的配置项和数据
+                var xdata = [];
+                for(var i = 0;i<sta.length;i++){
+                    xdata.push(
+                        new Date(sta[i].stadate).format("yyyy-MM-dd")
+                    );
+
+                }
+                var seatuse = [];
+                for(var i = 0;i<sta.length;i++){
+                    seatuse.push(
+                        sta[i].seatu
+                    );
+                }
+                var seatResver = [];
+                for(var i = 0;i<sta.length;i++){
+                    seatResver.push(
+                        sta[i].seatr
+                    );
+                }
+                var option = {
+                    dataZoom: {
+                        show: true,
+                        realtime: true,
+                        // type:'slider',
+                        y: 30,
+                        height: 30,
+                        start: 60,
+                        end: 100
+                    },
+                    title: {
+                        text: '座位使用统计'
+                    },
+                    tooltip: {},
+                    legend: {},
+                    xAxis: {
+                        type: 'category',
+                        data: xdata
+                    },
+                    yAxis: {type : 'value'},
+                    series: [
+                        {
+                            name: '使用记录',
+                            type: 'bar',
+                            data: seatuse
+                        },
+                        {
+                            name: '预约记录',
+                            type: 'bar',
+                            data: seatResver
+                        }
+                    ],
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            }
+        })
+        //日期格式
+        Date.prototype.format = function(fmt) {
+            var o = {
+                "M+" : this.getMonth()+1,                 //月份
+                "d+" : this.getDate(),                    //日
+                "h+" : this.getHours(),                   //小时
+                "m+" : this.getMinutes(),                 //分
+                "s+" : this.getSeconds(),                 //秒
+                "q+" : Math.floor((this.getMonth()+3)/3), //季度
+                "S"  : this.getMilliseconds()             //毫秒
+            };
+            if(/(y+)/.test(fmt)) {
+                fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+            }
+            for(var k in o) {
+                if(new RegExp("("+ k +")").test(fmt)){
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                }
+            }
+            return fmt;
+        }
+    </script>
+    </body>
+</html>

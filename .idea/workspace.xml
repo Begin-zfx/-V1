@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f6fe5d3e-3b5e-4908-91fb-72cffc5b4f9f" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\java\mavenRepo" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="D:\java\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ZM1I0dMCf4JEqPAPkQWL5KDsiH" />
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../testzfx111" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\templates" />
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\static\img" />
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\static\js" />
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\static\css" />
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\static\excel" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zfx.utils" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\static\js" />
+      <recent name="D:\java\IDEA\work_zfx\myproject\src\main\resources\static\img" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.MyprojectApplication">
+    <configuration name="jsonAndmap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="jsonAndmap" />
+      <module name="myproject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyprojectApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="myproject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zfx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zfx" />
+      <option name="MAIN_CLASS_NAME" value="com.zfx.MyprojectApplicationTests" />
+      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyprojectApplicationTests.insertdates" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="myproject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zfx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zfx" />
+      <option name="MAIN_CLASS_NAME" value="com.zfx.MyprojectApplicationTests" />
+      <option name="METHOD_NAME" value="insertdates" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyprojectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="myproject" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zfx.MyprojectApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.jsonAndmap" />
+        <item itemvalue="JUnit.MyprojectApplicationTests.contextLoads" />
+        <item itemvalue="JUnit.MyprojectApplicationTests.insertdates" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f6fe5d3e-3b5e-4908-91fb-72cffc5b4f9f" name="Default Changelist" comment="" />
+      <created>1584634065371</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584634065371</updated>
+      <workItem from="1584634068367" duration="382000" />
+      <workItem from="1584697044159" duration="7042000" />
+      <workItem from="1584774234946" duration="4351000" />
+      <workItem from="1584798110330" duration="1691000" />
+      <workItem from="1584861849225" duration="12704000" />
+      <workItem from="1584944186388" duration="19481000" />
+      <workItem from="1585019843578" duration="12117000" />
+      <workItem from="1585043057681" duration="18217000" />
+      <workItem from="1585098287111" duration="35579000" />
+      <workItem from="1585186903874" duration="40102000" />
+      <workItem from="1585273822689" duration="34187000" />
+      <workItem from="1585360559594" duration="722000" />
+      <workItem from="1585361514286" duration="16793000" />
+      <workItem from="1585466865789" duration="21456000" />
+      <workItem from="1585548592581" duration="28619000" />
+      <workItem from="1585623574254" duration="19649000" />
+      <workItem from="1585705781116" duration="12695000" />
+      <workItem from="1585727482699" duration="592000" />
+      <workItem from="1585730165920" duration="8851000" />
+      <workItem from="1585797379924" duration="16233000" />
+      <workItem from="1586334910478" duration="5262000" />
+      <workItem from="1586511427254" duration="6170000" />
+      <workItem from="1586659651316" duration="2981000" />
+      <workItem from="1586827220490" duration="588000" />
+      <workItem from="1586832342312" duration="597000" />
+      <workItem from="1587544461568" duration="1897000" />
+      <workItem from="1588250995062" duration="281000" />
+      <workItem from="1588251375582" duration="478000" />
+      <workItem from="1588860531999" duration="145000" />
+      <workItem from="1588861257891" duration="3079000" />
+      <workItem from="1588943098267" duration="6000" />
+      <workItem from="1588943144187" duration="191000" />
+      <workItem from="1588943751357" duration="3000" />
+      <workItem from="1588943901622" duration="557000" />
+      <workItem from="1588945208949" duration="209000" />
+      <workItem from="1588945527668" duration="2066000" />
+      <workItem from="1588986101792" duration="3001000" />
+      <workItem from="1590834671878" duration="5931000" />
+      <workItem from="1591790258595" duration="1059000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>

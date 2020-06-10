@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>用户信息</title>
+        <link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+        <link href="css/dataTables.bootstrap4.min.css" th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" crossorigin="anonymous">
+        <script src="js/all.min.js" th:src="@{/js/all.min.js}" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+    <div th:replace="commons/bar::topbar"></div>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <div th:replace="commons/bar::sidebar"></div>
+            </div>
+            <!-- 员工编辑的模态框 -->
+            <div class="modal fade" id="userUpdateAndModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel2">编辑</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <span class="help-block text-danger" id="infoUpdate"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">用户姓名</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" name="userName" class="form-control" maxlength="16" id="userName_update_inpput">
+                                        <span class="help-block text-info" ></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">用户年龄</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" name="userAge" class="form-control" id="userAge_update_inpput" maxlength="3">
+                                        <span class="help-block text-info" ></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">性别</label>
+                                    <div class="col-sm-12" id="gender_btn">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="gender" id="gender1_update_input" value="M" checked="checked">男
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="gender" id="gender2_update_input" value="F">女
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">手机号码</label>
+                                    <div class="col-sm-12">
+                                        <input type="tel" name="userTel" class="form-control" id="userTel_update_inpput" maxlength="11" >
+                                        <span class="help-block text-info"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">密码</label>
+                                    <div class="col-sm-12">
+                                        <input type="password" name="userPwd" class="form-control" maxlength="16" id="userPwd_update_inpput">
+                                        <span class="help-block text-info"></span>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="save_update_btn">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 员工添加的模态框 -->
+            <div class="modal fade" id="userAndModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">添加</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <span class="help-block text-danger" id="info"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">用户姓名</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" name="userName" class="form-control" maxlength="16" id="userName_add_inpput" placeholder="请输入你的姓名">
+                                        <span class="help-block text-info" ></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">用户年龄</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" name="userAge" class="form-control" id="userAge_add_inpput" maxlength="3"  placeholder="请输入你的年龄">
+                                        <span class="help-block text-info" ></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">性别</label>
+                                    <div class="col-sm-12">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="gender" id="gender1_add_input" value="M" checked="checked">男
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="gender" id="gender2_add_input" value="F">女
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">手机号码</label>
+                                    <div class="col-sm-12">
+                                        <input type="tel" name="userTel" class="form-control" id="userTel_add_inpput" maxlength="11" placeholder="输入11位的手机号码">
+                                        <span class="help-block text-info"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">密码</label>
+                                    <div class="col-sm-12">
+                                        <input type="password" name="userPwd" class="form-control" maxlength="16" id="userPwd_add_inpput" placeholder="输入登陆密码">
+                                        <span class="help-block text-info"></span>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="save_btn">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="layoutSidenav_content">
+
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">用户信息</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a th:href="@{/user22}">主页</a></li>
+                            <li class="breadcrumb-item active">用户信息</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                        <button id="addUserbtn" type="button" class="btn btn-info">
+                                            <!--<i class="fas fa-user" aria-hidden="true"></i> -->   添加用户
+                                        </button>
+                                    </div>
+                                    <div class="col-3">
+                                        <span class="text-danger" id="queryUserInfo"></span>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" placeholder="输入姓名（可模糊查）" class="form-control" maxlength="16" id="queryByUserID">
+                                    </div>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-info" id="queryByUserID_btn"><i class="fas fa-search" aria-hidden="true"></i>搜索</button>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-info" id="queryAll"><i class="fas fa-search" aria-hidden="true"></i>查询全部</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="UserTable" width="100%" cellspacing="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>用户名</th>
+                                                <th>年龄</th>
+                                                <th>性别</th>
+                                                <th>手机号</th>
+                                                <th>密码</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <!--<tr th:each="user:${users}">
+                                                <td th:text="${user.userid}"></td>
+                                                <td th:text="${user.username}"></td>
+                                                <td th:text="${user.userage}"></td>
+                                                <td th:text="${user.usergender}=='F'?'女':'男'"></td>
+                                                <td th:text="${user.usertel}"></td>
+                                                <td th:text="${user.userpwd}"></td>
+                                                <td style="text-align: center">
+                                                    <input type="hidden" th:value="${user.userid}" id="userid_btn">
+                                                    <button type="button" class="btn btn-primary" th:attr="edit_id=${user.userid}" id="update_btn"><i class="fas fa-list-alt" aria-hidden="true"></i> 编辑</button>
+                                                    <button th:attr="delete_User=@{/deleteUser/}+ ${user.userid}" class="btn btn-danger deleteBtn"><i class="fas fa-trash" aria-hidden="true"></i>  删除</button>
+                                                </td>
+                                            </tr>-->
+
+                                        </tbody>
+                                    </table>
+                                    <!-- 分页条 -->
+                                    <div class="row">
+                                        <!-- 分页文字信息 -->
+                                        <div class="col-md-6" id="page_info_area">
+                                            <!-- <h4>当前页第*页,总页码：,总记录：</h4> -->
+                                        </div>
+                                        <!-- 分页条信息 -->
+                                        <div class="col-md-6" id="page_nav_area"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <!--<form id="deleteEmpForm"  method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                </form>-->
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">联系：m15952086301@163.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    <script src="js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+    <script src="js/scripts.js" th:src="@{/js/scripts.js}"></script>
+    <script src="js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}" crossorigin="anonymous"></script>
+    <script src="js/dataTables.bootstrap4.min.js" th:src="@{/js/dataTables.bootstrap4.min.js}" crossorigin="anonymous"></script>
+    <script src="js/datatables-demo.js" th:src="@{/js/datatables-demo.js}"></script>
+    <script type="text/javascript">
+        var totalRecord;
+        var currentPage;
+        $(function() {
+            to_page(1);
+        })
+        function to_page(pn){
+            $.ajax({
+                url: "http://localhost:8080/userTables/",
+                data: "pn=" + pn,
+                type: "GET",
+                success:function(result){
+                    //console.log();
+                    //1.解析并显示员工数据
+                    bulid_emps_table(result);
+                    //2.显示分页信息
+                    build_page_info(result);
+                    //3.解析并显示分页信息
+                    build_page_nav(result);
+                }
+            });
+        }
+        //表格数据
+        function bulid_emps_table(result){
+            //清空table表格数据
+            $("#UserTable tbody").empty();
+            var seatUses=result.extend.pageInfo.list;
+            $.each(seatUses,function(index,item){
+                var useidTd=$("<td></td>").append(item.userid);
+                var usernameTd=$("<td></td>").append(item.username);
+                var userageTd=$("<td></td>").append(item.userage);
+                var usergenderTd=$("<td></td>").append(item.usergender=='M'?'男':'女');
+                var usertelTd=$("<td></td>").append(item.usertel);
+                var userpwdTd=$("<td></td>").append(item.userpwd);
+                var editBtn=$("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                    .append($("<i></i>").addClass("fas fa-list-alt")).append($("<span></span>").append("编辑"));
+                var delBtn=$("<button></button>").addClass("btn btn-danger btn-sm del_btn")
+                    .append($("<i></i>").addClass("fas fa-trash")).append($("<span></span>").append("删除"));
+                var btnTd=$("<td></td>").append(editBtn).append("  ").append(delBtn);
+                editBtn.attr("user_id",item.userid);
+                delBtn.attr("user_id",item.userid);
+                //append方法执行完成以后还是返回原来的元素
+                $("<tr></tr>").append(useidTd)
+                    .append(usernameTd)
+                    .append(userageTd)
+                    .append(usergenderTd)
+                    .append(usertelTd)
+                    .append(userpwdTd)
+                    .append(btnTd)
+                    .appendTo("#UserTable tbody");
+            });
+        }
+        //清空表单样式以及内容
+        function rest_form(ele){
+            $(ele)[0].reset();
+            $(ele).find("*").removeClass("has-success has-error");
+            $(ele).find(".help-block").text("");
+        }
+        /**********************************分页***************************************/
+        //解析显示分页信息
+        function build_page_info(result) {
+            $("#page_info_area").empty();
+            var page_area = result.extend.pageInfo;
+            $("#page_info_area").append($("<h5></h5>").append("当前页："+page_area.pageNum+",总页数："+page_area.pages+",总记录数："+page_area.total));
+            totalRecord = page_area.pageSize;
+            currentPage = page_area.pageNum;
+        }
+        //解析分页条数据，点击分页要能到下一页
+        function build_page_nav(result){
+            $("#page_nav_area").empty();
+            var ul=$("<ul></ul>").addClass("pagination");
+            var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").addClass("page-link").attr("href","#"));
+            var prePageLi=$("<li></li>").append($("<a></a>").addClass("page-link").append("&laquo;"));
+            //如果不存在上一页，首页和上一页按钮禁用，如果存在上一页，可以进行点击事件（不会发请求）
+            if(result.extend.pageInfo.hasPreviousPage==false){
+                firstPageLi.addClass("disabled");
+                prePageLi.addClass("disabled");
+            }else{
+                //点击事件
+                firstPageLi.click(function(){
+                    to_page(1);
+                });
+                prePageLi.click(function(){
+                    to_page(result.extend.pageInfo.pageNum-1);
+                });
+            }
+            var nextPageLi=$("<li></li>").append($("<a></a>").addClass("page-link").append("&raquo;"));
+            var lastPageLi=$("<li></li>").append($("<a></a>").addClass("page-link").append("末页").attr("href","#"));
+            if(result.extend.pageInfo.hasNextPage==false){
+                nextPageLi.addClass("disabled");
+                lastPageLi.addClass("disabled");
+            }else{
+                //点击事件
+                nextPageLi.click(function(){
+                    to_page(result.extend.pageInfo.pageNum+1);
+                });
+                lastPageLi.click(function(){
+                    to_page(result.extend.pageInfo.pages);
+                });
+            }
+            ul.append(firstPageLi).append(prePageLi);
+            //遍历给UL中添加页码提示
+            $.each(result.extend.pageInfo.navigatepageNums,function(index,item){
+                var numLi=$("<li></li>").append($("<a></a>").addClass("page-link").append(item));
+                if(result.extend.pageInfo.pageNum==item){
+                    numLi.addClass("text-primary");
+                }
+                numLi.click(function(){
+                    to_page(item);
+                });
+                ul.append(numLi);
+
+            });
+            ul.append(nextPageLi).append(lastPageLi);
+            var navEle=$("<nav></nav>").append(ul);
+            navEle.appendTo("#page_nav_area");
+        }
+
+        $(document).on('click','#exportTable',function () {
+
+            $('table').tableExport({
+                type:'excel',
+                fileName:'座位使用记录统计表格',
+                escape:'false'
+            });
+        })
+        /**********************************分页***************************************/
+        //点击保存，保存新增的管理员
+        $("#save_btn").click(function(){
+            var userName = $("#userName_add_inpput").val();
+            var userTel = $("#userTel_add_inpput").val();
+            var userPwd = $("#userPwd_add_inpput").val();
+            if(userName == ""){
+                $("#info").text("请输入用户姓名！");
+                return false;
+            }
+            if(userTel == ""){
+                $("#info").text("请输入手机号码！");
+                return false;
+            }
+            if(userPwd == ""){
+                $("#info").text("请输入密码！");
+                return false;
+            }
+            if(userName!="" && userTel!=null && userPwd!=""){
+                $("#info").text("");
+            }
+            //判断之前的ajax用户名校验是否成功，如果成功继续，否则终止
+            if($(this).attr("ajax_userName") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_userTel") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_userAge") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_userPwd") == "error"){
+                return false;
+            }
+        });
+
+        //显示校验的提示信息
+        function show_validate_msg(ele,status,msg){
+            //清楚当前元素的校验状态
+            $(ele).parent().removeClass("has-success has-error");
+            $(ele).next("span").text();
+            if("success"==status){
+                $(ele).parent().addClass("has-success");
+                $(ele).next("span").text(msg);
+            }else if("error"==status){
+                $(ele).parent().addClass("has-error");
+                $(ele).next("span").text(msg);
+            }
+        }
+
+        //点击保存（插入）按钮
+        $(document).on("click","#save_btn",function(){
+            var userName=$("#userName_add_inpput").val();
+            var userTel=$("#userTel_add_inpput").val();
+            var userPwd=$("#userPwd_add_inpput").val();
+            var userAge=$("#userAge_add_inpput").val();
+            var userGender=$("#gender1_add_input").val() == 'M'?'M':'F';
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/insertUser",
+                type:"POST",
+                data:{username:userName,usertel:userTel,userpwd:userPwd,userage:userAge,usergender:userGender},
+                success:function(result){
+                    if(result.code == 100){
+                        $('#userAndModal').modal('hide');
+                        to_page(totalRecord);
+                        show_validate_msg("#info","success",result.extend.va_msg);
+                    }else{
+                        show_validate_msg("#info","error",result.extend.va_msg);
+                    }
+                }
+            });
+        })
+        //后端用户姓名校验
+        $("#userName_add_inpput").change(function(){
+            var userName=$("#userName_add_inpput").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/checkAddUser",
+                type:"GET",
+                data:"username="+userName,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#userName_add_inpput","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_btn").attr("ajax_userName","success");
+                    }else{
+                        show_validate_msg("#userName_add_inpput","error",result.extend.va_msg);
+                        $("#save_btn").attr("ajax_userName","error");
+                    }
+                }
+            });
+        })
+        //后端手机号码校验
+        $("#userTel_add_inpput").change(function(){
+            var userTel=$("#userTel_add_inpput").val();
+            var userPwd=$("#userPwd_add_inpput").val();
+            var userName = $("#userName_add_inpput").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/checkAddTel",
+                type:"GET",
+                data:"usertel="+userTel,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#userTel_add_inpput","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_btn").attr("ajax_userTel","success");
+                    }else{
+                        show_validate_msg("#userTel_add_inpput","error",result.extend.va_msg);
+                        $("#save_btn").attr("ajax_userTel","error");
+                    }
+                }
+            });
+            if(userName!="" && userTel!=null && userPwd!=""){
+                $("#info").text("");
+            }
+        })
+        //checkAddAge
+        //前端年龄格式校验
+        $("#userAge_add_inpput").change(function(){
+            var userAge=$("#userAge_add_inpput").val();
+            var regex = new RegExp("(^\\d{1,3}$)");
+            if(regex.test(userAge) == false){
+                show_validate_msg("#userAge_add_inpput","error","请输入数字");
+                $("#save_btn").attr("ajax_userAge","error");
+            }
+            if(regex.test(userAge) == true){
+                show_validate_msg("#userAge_add_inpput","success"," ");
+                $("#save_btn").attr("ajax_userAge","success");
+            }
+        })
+        //后端密码校验checkAddPwd
+        $("#userPwd_add_inpput").change(function(){
+            var userPwd=$("#userPwd_add_inpput").val();
+            var userName = $("#userName_add_inpput").val();
+            var userTel = $("#userTel_add_inpput").val();
+
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/checkAddPwd",
+                type:"GET",
+                data:"userpwd="+userPwd,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#userPwd_add_inpput","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_btn").attr("ajax_userPwd","success");
+                    }else{
+                        show_validate_msg("#userPwd_add_inpput","error",result.extend.va_msg);
+                        $("#save_btn").attr("ajax_userPwd","error");
+                    }
+                }
+            });
+            if(userName!="" && userTel!=null && userPwd!=""){
+                $("#info").text("");
+            }
+        })
+        //清空表单样式以及内容
+        function rest_form(ele){
+            $(ele)[0].reset();
+            $(ele).find("*").removeClass("has-success has-error");
+            $(ele).find(".help-block").text("");
+        }
+
+        $(document).on("click","#addUserbtn",function(){
+            //清楚表单，重置（表单完整重置（表单的数据，样式））
+            rest_form("#userAndModal form");
+            //弹出模块，静态、esc关闭
+            $('#userAndModal').modal({
+                keyboard:true,
+                backdrop:"static"
+            })
+        });
+
+        //点击编辑按钮，弹出模态框
+        $(document).on("click",".edit_btn",function(){
+            rest_form("#userUpdateAndModal form");
+            //获取员工的信息，并显示到编辑模态框中
+            getUser($(this).attr("user_id"));
+            //将员工id传入到更新按钮上
+            $("#save_update_btn").attr("user_id",$(this).attr("user_id"));
+            //弹出模块，静态、esc关闭
+            $('#userUpdateAndModal').modal({
+                keyboard:true,
+                backdrop:"static"
+            })
+        });
+        function getUser(userid){
+            $.ajax({
+                url:"http://localhost:8080/queryUserByID/"+userid,
+                type:"GET",
+                success:function(result){
+                    var user = result.extend.users;
+                    // alert(user);
+                    $('#userName_update_inpput').val(user.username);
+                    $('#userAge_update_inpput').val(user.userage);
+                    $('#userTel_update_inpput').val(user.usertel);
+                    $("#gender_btn input[name = gender]").val([user.usergender]);
+                    $('#userPwd_update_inpput').val(user.userpwd);
+                }
+            });
+        }
+        //删除操作
+        $(document).on("click",".del_btn",function(){
+            var userid = $(this).attr("user_id");
+            if(confirm("确定删除："+userid+"用户吗？")){
+                //如果点击确定，发送ajax请求去删除
+                $.ajax({
+                    url: "http://localhost:8080/deleteUser/" + userid,
+                    type: "DELETE",
+                    success: function(result){
+                        to_page(currentPage);
+                    }
+                });
+            }
+        })
+
+        /*************************编辑操作*************************************************
+         * *****************************************************************************************************************************/
+        //点击保存，保存新增的管理员
+        $("#save_update_btn").click(function(){
+            var userName = $("#userName_update_inpput").val();
+            var userTel = $("#userTel_update_inpput").val();
+            var userPwd = $("#userPwd_update_inpput").val();
+            if(userName == ""){
+                $("#infoUpdate").text("请输入用户姓名！");
+                return false;
+            }
+            if(userTel == ""){
+                $("#infoUpdate").text("请输入手机号码！");
+                return false;
+            }
+            if(userPwd == ""){
+                $("#infoUpdate").text("请输入密码！");
+                return false;
+            }
+
+            if(userName!="" && userTel!=null && userPwd!=""){
+                $("#infoUpdate").text("");
+            }
+            //判断之前的ajax用户名校验是否成功，如果成功继续，否则终止
+            if($(this).attr("ajax_userName") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_userTel") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_userAge") == "error"){
+                return false;
+            }
+            if($(this).attr("ajax_userPwd") == "error"){
+                return false;
+            }
+        });
+
+        //显示校验的提示信息
+        function show_validate_msg(ele,status,msg){
+            //清楚当前元素的校验状态
+            $(ele).parent().removeClass("has-success has-error");
+            $(ele).next("span").text();
+            if("success"==status){
+                $(ele).parent().addClass("has-success");
+                $(ele).next("span").text(msg);
+            }else if("error"==status){
+                $(ele).parent().addClass("has-error");
+                $(ele).next("span").text(msg);
+            }
+        }
+
+        //点击保存（更新）按钮
+        $(document).on("click","#save_update_btn",function(){
+            var userID = $(this).attr("user_id");
+            var userName=$("#userName_update_inpput").val();
+            var userTel=$("#userTel_update_inpput").val();
+            var userPwd=$("#userPwd_update_inpput").val();
+            var userAge=$("#userAge_update_inpput").val();
+            var userGender=$("#gender1_update_input").val() == 'M'?'M':'F';
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/updateUser",
+                type:"PUT",
+                data:{userid:userID,username:userName,usertel:userTel,userpwd:userPwd,userage:userAge,usergender:userGender},
+                success:function(result){
+                    if(result.code == 100){
+                        $('#userUpdateAndModal').modal('hide');
+                        to_page(currentPage);
+                        // show_validate_msg("#infoUpdate","success",result.extend.va_msg);
+                    }else{
+                        show_validate_msg("#infoUpdate","error",result.extend.va_msg);
+                    }
+                }
+            });
+        })
+        //后端用户姓名校验
+        $("#userName_update_inpput").change(function(){
+            var userName=$("#userName_update_inpput").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/checkAddUser",
+                type:"GET",
+                data:"username="+userName,
+                success:function(result){
+                    if(result.code == 100){
+                        // show_validate_msg("#userName_update_inpput","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_update_btn").attr("ajax_userName","success");
+                    }else{
+                        show_validate_msg("#userName_update_inpput","error",result.extend.va_msg);
+                        $("#save_update_btn").attr("ajax_userName","error");
+                    }
+                }
+            });
+        })
+        //后端手机号码校验
+        $("#userTel_update_inpput").change(function(){
+            var userTel=$("#userTel_update_inpput").val();
+            var userPwd=$("#userPwd_update_inpput").val();
+            var userName = $("#userName_update_inpput").val();
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/checkAddTel",
+                type:"GET",
+                data:"usertel="+userTel,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#userTel_update_inpput","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_update_btn").attr("ajax_userTel","success");
+                    }else{
+                        show_validate_msg("#userTel_update_inpput","error",result.extend.va_msg);
+                        $("#save_update_btn").attr("ajax_userTel","error");
+                    }
+                }
+            });
+            if(userName!="" && userTel!=null && userPwd!=""){
+                $("#infoUpdate").text("");
+            }
+        })
+        //checkAddAge
+        //前端年龄格式校验
+        $("#userAge_update_inpput").change(function(){
+            var userAge=$("#userAge_update_inpput").val();
+            var regex = new RegExp("(^\\d{1,3}$)");
+            if(regex.test(userAge) == false){
+                show_validate_msg("#userAge_update_inpput","error","请输入数字");
+                $("#save_update_btn").attr("ajax_userAge","error");
+            }
+            if(regex.test(userAge) == true){
+                show_validate_msg("#userAge_update_inpput","success"," ");
+                $("#save_update_btn").attr("ajax_userAge","success");
+            }
+        })
+        //后端密码校验checkAddPwd
+        $("#userPwd_update_inpput").change(function(){
+            var userPwd=$("#userPwd_update_inpput").val();
+            var userName = $("#userName_update_inpput").val();
+            var userTel = $("#userTel_update_inpput").val();
+
+            //发送ajax，请求用户名是否可用
+            $.ajax({
+                url:"http://localhost:8080/checkAddPwd",
+                type:"GET",
+                data:"userpwd="+userPwd,
+                success:function(result){
+                    if(result.code == 100){
+                        show_validate_msg("#userPwd_update_inpput","success",result.extend.va_msg);
+                        // alert(result.extend.va_msg);
+                        $("#save_update_btn").attr("ajax_userPwd","success");
+                    }else{
+                        show_validate_msg("#userPwd_update_inpput","error",result.extend.va_msg);
+                        $("#save_update_btn").attr("ajax_userPwd","error");
+                    }
+                }
+            });
+            if(userName!="" && userTel!=null && userPwd!=""){
+                $("#infoUpdate").text("");
+            }
+        })
+        $(document).on('click','#queryByUserID_btn',function () {
+            if($('#queryByUserID').val() == ""){
+                $("#queryUserInfo").text("请输入姓名!");
+                return false;
+            }else {
+                $("#queryUserInfo").text("");
+            }
+            var username = $('#queryByUserID').val();
+            $.ajax({
+                url:"http://localhost:8080/queryUserlike/"+username,
+                type:"GET",
+                success:function(result) {
+                    if(result.code == 100){
+                        //console.log();
+                        //1.解析并显示员工数据
+                        bulid_emps_table(result);
+                        //2.显示分页信息
+                        build_page_info(result);
+                        //3.解析并显示分页信息
+                        build_page_nav(result);
+                        $("queryUserInfo").text("");
+                    }else {
+                        $("#queryUserInfo").text("没有查到，请重新输入!");
+                    }
+                }
+            })
+        })
+        $(document).on('click','#queryAll',function () {
+            to_page(1);
+        })
+    </script>
+    </body>
+</html>

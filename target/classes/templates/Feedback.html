@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>反馈页面</title>
+    <link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="css/dataTables.bootstrap4.min.css" th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet" crossorigin="anonymous">
+    <script src="js/all.min.js" th:src="@{/js/all.min.js}" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<!--公共部分-->
+<div th:replace="commons/bar::topbar"></div>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <div th:replace="commons/bar::sidebar"></div>
+    </div>
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">投诉反馈</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a th:href="@{/user22}">主页</a></li>
+                    <li class="breadcrumb-item active">投诉反馈</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header"><i class="fas fa-user" aria-hidden="true"></i>投诉反馈管理</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>投诉ID</th>
+                                    <th>用户ID</th>
+                                    <th>反馈时间</th>
+                                    <th style="width: 35%;word-break:break-all;word-wrap:break-word;">反馈结果</th>
+                                    <th style="width: 15%">操作</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="fd:${fds}" >
+                                    <td th:text="${fd.fdid}"></td>
+                                    <td th:text="${fd.cpid}"></td>
+                                    <td th:text="${fd.userid}"></td>
+                                    <td th:text="${#dates.format(fd.fdtime, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${fd.fdtext}"></td>
+                                    <td style="text-align: center">
+                                        <button type="button" class="btn btn-primary" th:attr="cp_id=${fd.cpid},user_id=${fd.userid}" id="cpidAnduserid">详细信息</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                    <div>
+                        <a href="#">联系：m15952086301@163.com</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!--详细信息模态框-->
+    <div class="modal fade" id="cpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">投诉详细信息</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="userName" class="col-sm-3 col-form-label text-danger">用户姓名：</label>
+                            <div class="col-sm-7">
+                                <input type="text" readonly class="form-control-plaintext text-secondary" id="userName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="userAge" class="col-sm-3 col-form-label text-danger">用户年龄：</label>
+                            <div class="col-sm-7">
+                                <input type="text" readonly class="form-control-plaintext text-secondary" id="userAge">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="userGender" class=" col-sm-3 col-form-label text-danger">用户性别：</label>
+                            <div class="col-sm-7">
+                                <input type="text" readonly class="form-control-plaintext text-secondary" id="userGender">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="userTel" class="col-sm-3 col-form-label text-danger">用户手机号：</label>
+                            <div class="col-sm-7">
+                                <input type="text" readonly class="form-control-plaintext text-secondary" id="userTel">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cpdate" class="col-sm-3 col-form-label text-danger">投诉日期：</label>
+                            <div class="col-sm-7">
+                                <input type="text" readonly class="form-control-plaintext text-secondary" id="cpdate">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cpText" class="col-sm-3 col-form-label text-danger">投诉内容：</label>
+                            <div class="col-sm-7">
+                                <p type="text" readonly class="form-control-plaintext text-secondary" id="cpText"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.4.1.min.js" th:src="@{/js/jquery-3.4.1.min.js}" crossorigin="anonymous"></script>
+<script src="js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+<script src="js/scripts.js" th:src="@{/js/scripts.js}"></script>
+<script src="js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}" crossorigin="anonymous"></script>
+<script src="js/dataTables.bootstrap4.min.js" th:src="@{/js/dataTables.bootstrap4.min.js}" crossorigin="anonymous"></script>
+<script src="js/datatables-demo.js" th:src="@{/js/datatables-demo.js}"></script>
+<script type="text/javascript">
+    //隐藏表格的列
+    $('table tr').find('td:eq(2)').hide();
+    $('table tr').find('th:eq(2)').hide();
+    //日期格式
+    Date.prototype.format = function(fmt) {
+        var o = {
+            "M+" : this.getMonth()+1,                 //月份
+            "d+" : this.getDate(),                    //日
+            "h+" : this.getHours(),                   //小时
+            "m+" : this.getMinutes(),                 //分
+            "s+" : this.getSeconds(),                 //秒
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度
+            "S"  : this.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        }
+        for(var k in o) {
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            }
+        }
+        return fmt;
+    }
+    //点击详细信息按钮，弹出模态框
+    $(document).on("click","#cpidAnduserid",function(){
+        var userid = $(this).attr("user_id");
+        var cpid = $(this).attr("cp_id");
+        getUser(userid);
+        getCp(cpid);
+        //弹出模块矿，静态、esc关闭
+        $('#cpModal').modal({
+            keyboard:true,
+            backdrop:"static"
+        })
+    });
+    function getUser(userid){
+        $.ajax({
+            url:"/queryUserByID/"+userid,
+            type:"GET",
+            success:function(result){
+                var user = result.extend.users;
+                // alert(user);
+                $('#userName').val(user.username);
+                $('#userAge').val(user.userage);
+                $('#userTel').val(user.usertel);
+                $("#userGender").val(user.usergender=='M'?'男':'女');
+            }
+        });
+    }
+    function getCp(cpid){
+        $.ajax({
+            url:"/queryCpByID/"+cpid,
+            type:"GET",
+            success:function(result){
+                var cp = result.extend.cp;
+                var cpdate = new Date(cp.cpdate).format("yyyy-MM-dd hh:mm:ss");
+                // alert(user);
+                $('#cpdate').val(cpdate);
+                $('#cpText').text(cp.cptext);
+            }
+        });
+    }
+</script>
+</body>
+</html>
